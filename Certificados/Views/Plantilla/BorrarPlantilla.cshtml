@@ -1,0 +1,32 @@
+﻿@model Certificados.Models.Plantillas
+
+@{
+    ViewBag.Title = "PLANTILLA: Eliminar";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            <strong>NOTA:</strong> Una vez que la plantilla sea eliminada, ya no podrá utilizarla nuevamente.
+        </p>
+        <p>
+            Por favor confirme que desea eliminar la plantilla <strong>"@Model.name"</strong>, presionando el botón <strong>"Borrar plantilla"</strong>.
+        </p>
+
+        <hr />
+
+        @using (@Html.BeginForm("ConfirmarBorrado", "Plantilla", FormMethod.Post, new { onsubmit = "return confirm('¿Está seguro de eliminar esta plantilla?')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            <div class="form-actions no-color">
+                <a href="~/Plantilla/AdministrarPlantillas" class="btn btn-primary">Cancelar</a>
+                <input type="submit" value="Borrar plantilla" class="btn btn-danger" />
+            </div>
+        }
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model IdentitySample.Models.IndexViewModel
+@{
+    ViewBag.Title = "Configuración de la cuenta de usuario";
+}
+
+<h2>@ViewBag.Title.</h2>
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    <div class="col-md-8">
+        <p style="font-size: x-large">
+            @(Model.HasPassword ? Html.ActionLink("Cambiar contraseña", "ChangePassword") 
+                : Html.ActionLink("Pick a password", "SetPassword"))
+        </p>
+       
+        
+        
+    </div>
+</div>

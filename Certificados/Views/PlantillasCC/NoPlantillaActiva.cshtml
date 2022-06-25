@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "NO EXISTE PLANTILLA ACTIVA";
+    var tipo = ViewBag.Tipo == "certificado" ? "los certificados de capacitación" : "las solicitudes de rectificación";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            No se ha encontrado una plantilla que actualmente este activa para generar @tipo de los comerciantes autónomos.
+            Para establecer una, presione el botón "Establecer Plantilla".
+        </p>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "InicioPlantillas", "PlantillasCC", null, htmlAttributes: new { @class = "btn btn-primary" })
+            @Html.ActionLink("Establecer Plantilla", "EstablecerPlantilla", "PlantillasCC", new { documento = ViewBag.Tipo }, htmlAttributes: new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

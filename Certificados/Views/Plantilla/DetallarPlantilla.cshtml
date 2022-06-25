@@ -1,0 +1,38 @@
+﻿@model Certificados.Models.Plantillas
+
+@{
+    ViewBag.Title = "PLANTILLA: Detalles";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div>
+            <p>
+                La plantilla <strong>"@Model.name"</strong> fue creada el <strong>@Model.fecha_creacion.ToString("dd/MM/yyyy")</strong>, 
+                y contiene los siguientes campos habilitados.
+            </p>
+            <ul>
+                <li>Nombres y apellidos</li>
+                <li>Curso / taller</li>
+                <li>Fecha</li>
+                @*<li><strong>ARCHIVO DE LA PLANTILLA:</strong> "@Model.archivo_plantilla".</li>*@
+                
+            </ul>
+        </div>
+
+        <p>
+            Para descargar el archivo de la plantilla, presione
+            @Html.ActionLink("aquí", "VerPlantilla", "Plantilla", new { nombreArchivoPlantilla =  Model.archivo_plantilla }, htmlAttributes: new { @target = "_blank" })
+            .
+        </p>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "AdministrarPlantillas", "Plantilla", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

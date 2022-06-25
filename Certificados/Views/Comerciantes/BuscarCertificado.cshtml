@@ -1,0 +1,109 @@
+﻿@model Certificados.Models.Comerciantes
+
+@{
+    ViewBag.Title = "CERTIFICADOS: Resultado de la búsqueda";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+    var rectificacionId = ViewBag.RectificacionId;
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+        <h2>DATOS: <b>"@ViewBag.DataCedula"</b> y <b>"@ViewBag.DataApellidos"</b></h2>
+        <br />
+        <div>
+            <div>
+                @if (@ViewBag.CertificadoGenerado)
+                {
+                    <p>
+                        Con los datos consultados ya se ha generado un certificado de capacitación, presione el botón
+                        <b>Descargar certificado</b> para guardarlo.
+                    </p>
+                }
+                else
+                {
+                    if (@ViewBag.RectificacionGenerado)
+                    {
+                        <p>
+                            Con los datos consultados ya registra una solicitud de rectificación, presionar el botón
+                            <b>Descargar solicitud</b>. para guardarlo. Recuerde que debe imprimir y firmar la solicitud para presentarla
+                            en las oficinas de la ACDC.
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Para obtener su certificado de capacitación, presione el botón <strong>"Generar documento"</strong>.
+                            Si considera que sus datos contienen errores y deben solicitar su rectificación. Presione
+                            <span>@Html.ActionLink("aquí", "RectificarDatos", "Comerciantes", Model, new { @class = "link-primary" })</span>.
+                        </p>
+                        <p>
+                            <strong>Importante:</strong> Revise minuciosamente sus datos ya que una vez generado el certificado
+                            de capacitación, NO podrá generar la solicitud la rectificación a través de este sistema.
+                        </p>
+                    }
+                }
+
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Nombres)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Nombres)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Apellidos)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Apellidos)
+                    </dd>
+                    <dt>
+                        Cédula:
+                        @*@Html.DisplayNameFor(model => model.Cedula)*@
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Cedula)
+                    </dd>
+                    <dt>
+                        Año de capacitación:
+                        @*@Html.DisplayNameFor(model => model.Capacitacion)*@
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Capacitacion)
+                    </dd>
+                    <dt>
+                        Institución:
+                        @*@Html.DisplayNameFor(model => model.InstitucionesDMQ.nombre_institucion)*@
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Institucion2.nombre_institucion)
+                    </dd>
+                </dl>
+                <hr />
+            </div>
+        </div>
+        <div>
+            <p>
+                @Html.ActionLink("Nueva Búsqueda", "NuevaBusqueda", "Comerciantes", null, htmlAttributes: new { @class = "btn btn-primary" })
+                @if (@ViewBag.CertificadoGenerado)
+                {
+                    @Html.ActionLink("Descargar certificado", "GenerarCC", "Comerciantes", Model, new { @class = "btn btn-success" })
+                }
+                else
+                {
+                    if (@ViewBag.RectificacionGenerado)
+                    {
+                        @Html.ActionLink("Descargar solicitud", "DescargarRect", "Comerciantes", new { rectificacionId = rectificacionId } , htmlAttributes: new { @class = "btn btn-success" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Generar documento", "GenerarCC", "Comerciantes", Model, new { @class = "btn btn-success" })
+                    }
+                }
+            </p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

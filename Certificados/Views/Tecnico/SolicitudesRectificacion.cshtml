@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "REGISTROS: Solicitudes de Rectificación";
+    List<SelectListItem> items = (List<SelectListItem>)ViewBag.items;
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<style type="text/css">
+    th, td {
+        text-align: center !important;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-sm-12">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel panel-heading">LISTADO DE COMERCIANTES AUTÓNOMOS CAPACITADOS DEL DMQ</div>
+                <div class="panel panel-body">
+                    <table id="tbComerciantes" class="table">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Institución</th>
+                                <th>Año Capacitación</th>
+                                <th>Rectificación Generada</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <p><strong>NOTA: </strong>El enlace de descarga permite bajar un archivo en formato PDF.</p>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel"><b>Atención de solicitudes de rectificación de datos</b></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="form-group" hidden>
+                            <label for="txtIdPersona">Id</label>
+                            <input type="text" id="txtIdPersona" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="txtCedula">Cédula:</label>
+                            <input type="text" class="form-control" id="txtCedula" min="10" maxlength="10" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" onCopy="return false;" onDrag="return false;" onDrop="return false;" onPaste="return false;" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtNombres">Nombres:</label>
+                            <input type="text" class="form-control" id="txtNombres" min="1", maxlength="50" onkeypress = "return soloLetras(event);" onCopy = "return false;" onDrag = "return false;" onDrop = "return false;" onPaste = "return false;", autocomplete = "off">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtApellidos">Apellidos:</label>
+                            <input type="text" class="form-control" id="txtApellidos" min="1", maxlength="50" onkeypress = "return soloLetras(event);" onCopy = "return false;" onDrag = "return false;" onDrop = "return false;" onPaste = "return false;", autocomplete = "off">
+                        </div>
+
+                        <div class="form-group" hidden>
+                            <label for="txtCapacitacion">Capacitacion</label>
+                            <input type="text" id="txtCapacitacion" />
+                        </div>                        
+
+                        <div class="form-group">
+                            <label for="txtInstitucionId">Institución:</label>
+                            @Html.DropDownList("txtInstitucionId", items, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="ConfirmarGuardar();">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var tabla_comerciantes;
+        $(document).ready(function () {
+            tabla_comerciantes = $('#tbComerciantes').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("ListarSolicitudesRectificacion", "Tecnico")",
+                    "type": "GET",
+                    "dataType": "json"
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombres" },
+                    { "data": "Apellidos" },
+                    { "data": "Capacitacion" },
+                    { "data": "Institucion" },
+                    /*{ "data": "RectificacionGenerada" },*/
+                    { "data": "RectificacionGenerada", render: function (data) {
+                            if (data != "NO") {
+                                return "<a href='/Tecnico/VerRect/?rutaArchivo=" + data + "' target='_blank'>Descargar</a>";
+                            } else {
+                                return data;
+                            }
+                        }
+                    },
+                    { "data": "Id", "render": function (data) {
+                        return "<button class='btn btn-primary btn-sm' type='button' onclick='abrirModal(" + data + ")'><i class='fas fa-pen'></i> Editar</button>"
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+            });
+        });
+
+        function abrirModal($ID) {
+            $("#txtIdPersona").val($ID);
+            if ($ID != 0) {
+                jQuery.ajax({
+                    url: "@Url.Action("ObtenerComerciante", "Tecnico")" + "?ID=" + $ID,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data != null) {
+                            $("#txtIdPersona").val($ID);
+                            $("#txtCedula").val(data.Cedula);
+                            $("#txtNombres").val(data.Nombres);
+                            $("#txtApellidos").val(data.Apellidos);
+                            $("#txtCapacitacion").val(data.Capacitacion);
+                            $("#txtInstitucionId").val(data.instituciones_id);
+                        }
+                    }
+                });
+            }
+            $('#FormModal').modal('show');
+        }
+
+        function soloLetras(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+            especiales = [8, 37, 39, 46];
+
+            tecla_especial = false
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+
+            if (letras.indexOf(tecla) == -1 && !tecla_especial)
+                return false;
+        }
+
+        function ConfirmarGuardar() {
+            var respuesta = confirm("¿Está seguro de guardar los cambios?");
+            if (respuesta) {
+                Guardar();
+            } else {
+                return;
+            }            
+        }
+
+        function Guardar() {
+            var $data = {
+                oComerciante: {
+                    ID: parseInt($("#txtIdPersona").val()),
+                    Cedula: parseInt($("#txtCedula").val()),
+                    Nombres: $("#txtNombres").val(),
+                    Apellidos: $("#txtApellidos").val(),
+                    Capacitacion: parseInt($("#txtCapacitacion").val()),
+                    Instituciones_id: parseInt($("#txtInstitucionId").val())
+                }
+            }
+
+            jQuery.ajax({
+                url: "/Tecnico/GuardarAtencion",
+                type: "POST",
+                data: JSON.stringify($data),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.resultado) {
+                        tabla_comerciantes.ajax.reload();
+                        $('#FormModal').modal('hide');
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+
+                }
+            });
+        }
+
+    </script>
+}

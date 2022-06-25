@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "REGISTROS: Comerciantes";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <h2>Carga de registros exitosa</h2>
+        <br />
+
+        <p>
+            Se ha(n) registrado <strong>@ViewBag.CantidadRegistros</strong> comerciante(s) en la base de datos. Las personas registradas podrán generar sus
+            certificados en el sistema de forma automática.
+        </p>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "Index", "Tecnico", null, htmlAttributes: new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

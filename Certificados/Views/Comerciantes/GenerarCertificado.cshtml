@@ -1,0 +1,91 @@
+﻿@model Certificados.Models.Certificados
+
+@{
+    Layout = null;
+}
+
+<style>
+    .dato-insertado {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .texto-certificado {
+        font: 14px arial, verdana;
+        text-align: justify;
+        line-height: 1.5em;
+    }
+
+    .texto-centrado {
+        text-align: center;
+    }
+
+    .texto-superior-derecha {
+        text-align: right;
+    }
+
+    .formatoA4 {
+        background-image: url("~/Img/plantillaA4.png");
+    }
+</style>
+
+<div class="texto-certificado formatoA4">
+    <div class="superior">
+        <div class="texto-superior-derecha">
+            @*<p>Path: @ViewBag.Path</p>*@
+            <h4>Documento No. @ViewBag.CertNumber</h4>
+            <p>@Model.fecha_emision.ToString("dd MMMM yyyy")</p>
+        </div>
+    </div>
+    <br />
+    <div class="centro">
+        <h1 class="texto-centrado">CERTIFICADO DE CAPACITACIÓN</h1>
+
+        <br /><br />
+        <p>A quien interese:</p>
+        <br />
+
+        <p>
+            Por medio del presente, certifico que el/la Sr(a) <span class="dato-insertado">
+                @Html.DisplayFor(model => model.Comerciantes.Apellidos)
+                @Html.DisplayFor(model => model.Comerciantes.Nombres)
+            </span>,
+            portador(a) de la cédula de ciudadanía No. <span class="dato-insertado">
+                @Html.DisplayFor(model => model.Comerciantes.Cedula)
+            </span>,
+            consta registrado/a en la base de datos de las capacitaciones del
+            año <span class="dato-insertado">@Html.DisplayFor(model => model.Comerciantes.Capacitacion)</span>,
+            impartidas a comerciantes autónomos con la finalidad de cumplir con uno de los requisitos establecidos
+            en el Código Municipal para el Distrito Metropolitano de Quito, Ordenanza Metropolitana No. 001, previo
+            a la obtención del permiso correspondiente.
+        </p>
+        <p>
+            El presente certificado es válido para la obtención del Permiso Único de Comerciante Autónomo - PUCA
+            por el año <span class="dato-insertado">@Model.fecha_emision.Year</span>, en la
+            "<span class="dato-insertado">@Html.DisplayFor(model => model.Comerciantes.Institucion2.nombre_institucion)</span>".
+        </p>
+        <br />
+        <p>
+            Atentamente,
+        </p>
+        <br /><br /><br />
+        <div>
+            <p>
+                Tnlgo. Pablo Hernández Ortiz<br />
+                <b>Director de Comercio Autónomo</b><br />
+                <b>Agencia de Coordinación Distrital del Comercio - ACDC</b>
+            </p>
+            <p>Válido hasta: 31 de diciembre de @Model.fecha_emision.Year</p>
+            @if (ViewBag.QRCodeImage != null)
+            {
+                <img src="@ViewBag.QRCodeImage" alt="" style="height:150px; width:150px" />
+            }
+        </div>
+    </div>
+    <div class="inferior">
+        <p>
+            <strong>NOTA:</strong> El presente documento tiene valor únicamente informativo de los datos antes consignados y no implica ninguna responsabilidad
+            para la Agencia de Coordinación Distrital del Comercio - ACDC ni para los funcionarios que la conforma.
+        </p>
+    </div>
+</div>

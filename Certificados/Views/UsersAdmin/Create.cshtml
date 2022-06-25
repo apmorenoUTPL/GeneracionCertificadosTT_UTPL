@@ -1,0 +1,107 @@
+﻿@model IdentitySample.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <p>Crear un nuevo usuario para el sistema</p>
+            <hr />
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Nombres, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Nombres, new { @class = "form-control", @maxlength = "50", @onkeypress = "return soloLetras(event);", @onCopy = "return false;", @onDrag = "return false;", @onDrop = "return false;", @onPaste = "return false;", @autocomplete = "off", @required = "required" })
+                    @Html.ValidationMessageFor(m => m.Nombres, "Campo requerido")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Apellidos, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control", @maxlength = "50", @onkeypress = "return soloLetras(event);", @onCopy = "return false;", @onDrag = "return false;", @onDrop = "return false;", @onPaste = "return false;", @autocomplete = "off", @required = "required" })
+                    @Html.ValidationMessageFor(m => m.Apellidos, "Campo requerido")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "Campo requerido")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "Campo requerido")
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "Campo requerido")
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <fieldset>
+                    <legend>Seleccionar roles:</legend>
+                    @foreach (var item in (SelectList)ViewBag.RoleId)
+                    {
+                        <input type="checkbox" name="SelectedRoles" value="@item.Value" id="@item.Value" class="checkbox-inline" />
+                        <label for="@item.Value" class="control-label">@item.Value</label>
+                        @*@Html.Label(item.Value, new { @class = "control-label" })*@
+                    }
+                </fieldset>                
+            </div>
+            <br /> 
+
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-11">
+                    @Html.ActionLink("Cancelar", "Index", "UsersAdmin", null, htmlAttributes: new { @class = "btn btn-danger" })
+                    <input type="submit" class="btn btn-success" value="Crear" />
+                </div>
+            </div>
+        }
+        <p>
+            
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval");
+
+    <script type="text/javascript">
+        function soloLetras(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+            especiales = [8, 37, 39, 46];
+
+            tecla_especial = false
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+
+            if (letras.indexOf(tecla) == -1 && !tecla_especial)
+                return false;
+        }
+    </script>
+}

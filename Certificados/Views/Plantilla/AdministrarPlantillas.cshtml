@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Certificados.Models.Plantillas>
+
+@{
+    ViewBag.Title = "OTROS DOCUMENTOS: Plantillas";
+}
+
+<style type="text/css">
+    th, td {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-danger" })
+            @Html.ActionLink("Ver Documentos", "IndexDocumentos", "Documentos", null, htmlAttributes: new { @class = "btn btn-primary" })
+            @Html.ActionLink("Nueva Plantilla", "CrearPlantilla", "Plantilla", Model, htmlAttributes: new { @class = "btn btn-success" })
+        </p>
+        @if (!String.IsNullOrEmpty(ViewBag.Mensaje))
+        {
+            <p>@ViewBag.Mensaje</p>
+        }
+
+        @if (Model != null)
+        {
+            <table class="table">
+                <caption hidden>Tabla de plantillas otros documentos</caption>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha de Creación</th>
+                    <th>Archivo plantilla</th>
+                    <th>Datos</th>
+                    <th>Opciones</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.name)
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.fecha_creacion.ToString("dd/mm/yyyy"))*@
+                            @item.fecha_creacion.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.archivo_plantilla)*@
+                            @Html.ActionLink("Descargar", "VerPlantilla", "Plantilla", new { nombreArchivoPlantilla = item.archivo_plantilla }, htmlAttributes: new { @target = "_blank" })
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.plantilla_activa)
+                        </td>*@
+                        <td>
+                            @Html.ActionLink("Generar", "SeleccionarDatos", "Plantilla", item, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Detalles", "MostrarDetallesPlantilla", "Plantilla", item, htmlAttributes: new { @class = "btn btn-primary btn-sm" }) |*@
+                            @Html.ActionLink("Detalles", "DetallarPlantilla", "Plantilla", new { idPlantilla = item.Id }, htmlAttributes: new { name = "detalles" }) |
+                            @Html.ActionLink("Editar", "EditarPlantilla", "Plantilla", new { idPlantilla = item.Id }, htmlAttributes: new { name = "editar" }) |
+                            @Html.ActionLink("Borrar", "BorrarPlantilla", "Plantilla", new { idPlantilla = item.Id }, htmlAttributes: new { name = "borrar" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div class="row">
+                <p><strong>NOTA: </strong>El enlace de descarga permite bajar un archivo en formato PDF.</p>
+            </div>
+        }
+        else
+        {
+            <p>
+                No existen plantillas que mostrar. Para crear una plantilla, presione el botón <strong>"Nueva Plantilla"</strong>
+            </p>
+        }
+        <br />
+
+    </div>
+    <div class="col-md-1"></div>    
+</div>

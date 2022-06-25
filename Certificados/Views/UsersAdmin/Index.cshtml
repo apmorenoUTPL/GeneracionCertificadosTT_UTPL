@@ -1,0 +1,45 @@
+﻿@model IEnumerable<IdentitySample.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "ADMINISTRACIÓN DE USUARIOS";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            @Html.ActionLink("Crear Usuario", "Create")
+        </p>
+        <table class="table">
+            <caption hidden>Usuarios</caption>
+            <tr>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.UserName)*@
+                    Usuario
+                </th>
+                <th>
+                    Opciones
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,60 @@
+﻿@model Certificados.Models.PlantillasCC
+
+@{
+    var tipoDocumento = (string)ViewBag.Tipo;
+    ViewBag.Title = "PLANTILLA ACTIVA: " + tipoDocumento.ToUpper();
+    var tipo = ViewBag.Tipo == "certificado" ? "los certificados de capacitación" : "las solicitudes de rectificación";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            Actualmente, existe una plantilla activa en formato PDF cargada para generar @tipo de los comerciantes autónomos.
+            Los datos de la plantilla se presentan a continuación:
+        </p>
+
+        <dl class="row">
+            <dt class="col-md-1">
+                @*@Html.DisplayNameFor(model => model.nombre_plantilla)*@
+                Nombre:
+            </dt>
+            <dd class="col-md-11">
+                @Html.DisplayFor(model => model.nombre_plantilla)
+            </dd>
+
+            <dt class="col-md-1">
+                @*@Html.DisplayNameFor(model => model.fecha_plantilla)*@
+                Creada:
+            </dt>
+            <dd class="col-md-11">
+                @*@Html.DisplayFor(model => model.fecha_plantilla)*@
+                @Model.fecha_plantilla.ToString("dd/MM/yyyy")
+            </dd>
+
+            <dt class="col-md-1">
+                @*@Html.DisplayNameFor(model => model.archivo_plantilla)*@
+                Archivo:
+            </dt>
+            <dd class="col-md-11">
+                @*@Html.DisplayFor(model => model.archivo_plantilla)*@
+                @Html.ActionLink(Model.archivo_plantilla, "VerArchivoPlantilla", "PlantillasCC", new { nombreArchivo = Model.archivo_plantilla }, htmlAttributes: new { @target = "_blank" })
+            </dd>
+        </dl>
+
+        <div class="row col-md-12">
+            <p><strong>NOTA: </strong>El enlace anterior permite la descarga de un archivo en formato PDF.</p>
+        </div>
+        <br /><br />
+
+        <div class="row col-md-12">
+            <p>
+                @Html.ActionLink("Regresar", "InicioPlantillas", "PlantillasCC", null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink("Cambiar Plantilla", "EstablecerPlantilla", "PlantillasCC", new { documento = Model.documento_plantilla }, htmlAttributes: new { @class = "btn btn-success" })
+            </p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,27 @@
+﻿@model Certificados.Models.ParametrosCC
+
+@{
+    ViewBag.Title = "PARÁMETROS: Guardar";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <div>
+            <h1 class="centrado">@ViewBag.Title</h1>
+            <br />
+
+            <h4>Parámetro: @Model.nombre_parametro</h4>
+
+            <p>
+                @ViewBag.Mensaje
+            </p>
+            <br />
+
+            <p>
+                @Html.ActionLink("Regresar", "Index", "ParametrosCC", null, htmlAttributes: new { @class = "btn btn-primary" })
+            </p>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

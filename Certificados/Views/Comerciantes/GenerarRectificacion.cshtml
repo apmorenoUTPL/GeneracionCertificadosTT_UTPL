@@ -1,0 +1,27 @@
+﻿@model Certificados.Models.Rectificaciones
+
+@{ 
+    ViewBag.Title = "RECTIFICACIÓN: Descargar documento";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <h4>Documento generado con éxito.</h4>
+
+        <p>
+            Se ha generado correctamente la solicitud de rectificación de datos para el/la señor(a)
+            <strong>@Model.Comerciantes.Nombres @Model.Comerciantes.Apellidos</strong>, que puede descargarlo presionando
+            <strong>@Html.ActionLink("aquí", "DescargarRect", "Comerciantes", new { rectificacionId = @Model.Id }, new { @target = "_blank" })</strong>.
+        </p>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar al inicio", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary" })
+            @Html.ActionLink("Nueva Búsqueda", "NuevaBusqueda", "Comerciantes", null, htmlAttributes: new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

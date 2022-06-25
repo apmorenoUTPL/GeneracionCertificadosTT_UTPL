@@ -1,0 +1,33 @@
+﻿@model Certificados.Models.PlantillasCC
+
+@{
+    ViewBag.Title = "PLANTILLA";
+    var tipo = ViewBag.Tipo == "certificado" ? "los certificados de capacitación" : "las solicitudes de rectificación";
+}
+
+<style type="text/css">
+    h2 {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h2>@ViewBag.Title</h2>
+        <br />
+
+        <h4>
+            @ViewBag.Mensaje
+        </h4>
+        <p>
+            Ahora el sistema puede emplear la plantilla denominada <strong>"@Model.nombre_plantilla.ToString().ToUpper()"</strong> 
+            para generar @tipo de forma automática.
+        </p>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "InicioPlantillas", "PlantillasCC", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

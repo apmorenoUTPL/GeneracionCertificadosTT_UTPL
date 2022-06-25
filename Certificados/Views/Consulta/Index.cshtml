@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "CONSULTA: Comerciantes";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<style type="text/css">
+    h2, th, td {
+        text-align: center !important;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h2>@ViewBag.Title</h2>
+        <br />
+
+        <p>
+            @Html.ActionLink("Regresar", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel panel-heading">CONSULTA: COMERCIANTES AUTÓNOMOS CAPACITADOS EN EL DMQ</div>
+                    <div class="panel panel-body">
+                        <table id="tbComerciantes" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Cédula</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Año Capacitación</th>
+                                    <th>Institución</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tbComerciantes').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("Listar","Consulta")",
+                    "type": "GET",
+                    "dataType": "json"
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombres" },
+                    { "data": "Apellidos" },
+                    { "data": "Capacitacion" },
+                    { "data": "Institucion" },
+                    { "data": "Id", "render": function (data) {
+                            return "<button class='btn btn-info btn-sm' type='button' onclick='abrirModal(" + data + ")'>Ver detalles</button>"
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ]
+            });
+        });
+
+        function abrirModal($ID) {
+            alert("Ver detalles del comerciante! " + $ID)
+        }
+
+    </script>
+}

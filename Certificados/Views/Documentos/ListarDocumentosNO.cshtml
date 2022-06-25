@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Certificados.Models.Documentos>
+
+@{
+    ViewBag.Title = "DOCUMENTOS GENERADOS";
+}
+
+<style type="text/css">
+    h2, th, td {
+        text-align: center;
+    }
+</style>
+
+<div>
+    <h2>@ViewBag.Title</h2>
+    <br />
+    <p>
+        @Html.ActionLink("Regresar", "AdministrarPlantillas", "Plantilla", null, htmlAttributes: new { @class = "btn btn-primary" })
+    </p>
+
+    @if (Model != null)
+    {
+        if (String.IsNullOrEmpty(ViewBag.Mensaje))
+        {
+            @ViewBag.Mensaje
+            <br />
+        }
+
+        <table class="table">
+            <tr>
+                <th>
+                    Fecha de creación
+                </th>
+                <th>
+                    Archivo
+                </th>
+                <th>
+                    Código de verificación
+                </th>
+                <th>Opciones</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.fecha_generado.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.ruta_archivo, "VerDocumento", "Documentos", new { rutaArchivo = item.ruta_archivo }, htmlAttributes: new { @target = "_blank" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.codigo_verificacion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ver detalles", "DetallarDocumento", "Documentos", new { idDoc = item.Id }, htmlAttributes: new { name = "detalles" })
+                    </td>
+                </tr>
+            }
+        </table>
+        <hr />
+    }
+    else
+    {
+        <p>Por el momento, no existen documentos generados para mostrar.</p>
+        <br />
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+
+
+        @*$(document).ready(function () {
+            $('#descargar').click(function () {
+                var idCheckedValues = [];
+                $(".docGenerado:checked").each(function () {
+                    idCheckedValues.push($(this).val());
+                });
+
+                if (idCheckedValues.length > 0) {
+                    var param = {
+                        'docsIdArray': idCheckedValues
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("Descargar", "Documentos")',
+                        data: JSON.stringify(param),
+                        type: "POST",
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            alert("success1");
+                            window.location = '/Documentos/DescargarZipDocumentos/' + data.lista;
+                            alert("success2");
+                        },
+                        error: function (data) {
+                            alert("Error" + data.responseText);
+                        }
+                    });
+                } else {
+                    alert("Para iniciar la descarga, debe seleccionar al menos una casilla.");
+                    return false;
+                }
+
+            })
+        });*@
+    </script>
+}

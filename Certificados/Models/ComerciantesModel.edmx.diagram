@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cc91f91af4914326ae96a94f4d16e99b" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="ComerciantesModel.Comerciantes" Width="1.5" PointX="5.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComerciantesModel.Certificados" Width="1.75" PointX="3.125" PointY="2.875" />
+        <EntityTypeShape EntityType="ComerciantesModel.Institucion" Width="1.75" PointX="3.125" PointY="0.5" />
+        <EntityTypeShape EntityType="ComerciantesModel.Rectificaciones" Width="2" PointX="7.625" PointY="0.5" />
+        <AssociationConnector Association="ComerciantesModel.FK_Comerciantes_ID" />
+        <AssociationConnector Association="ComerciantesModel.FK_Comerciantes_Rectificaciones" />
+        <AssociationConnector Association="ComerciantesModel.FK_Comerciantes_InstitucionesDMQ" />
+        <EntityTypeShape EntityType="ComerciantesModel.Datos" Width="1.5" PointX="10.25" PointY="0.5" />
+        <EntityTypeShape EntityType="ComerciantesModel.Documentos" Width="1.5" PointX="12.625" PointY="0.625" />
+        <EntityTypeShape EntityType="ComerciantesModel.Plantilla_Dato" Width="1.5" PointX="10.25" PointY="4.25" />
+        <EntityTypeShape EntityType="ComerciantesModel.Plantillas" Width="2" PointX="12.25" PointY="3.625" />
+        <AssociationConnector Association="ComerciantesModel.FK_Dato_Plantilla" />
+        <AssociationConnector Association="ComerciantesModel.FK_Documentos_Dato" />
+        <AssociationConnector Association="ComerciantesModel.FK_Plantilla_Dato_Table" />
+        <EntityTypeShape EntityType="ComerciantesModel.ParametrosCC" Width="1.75" PointX="7.75" PointY="4.375" />
+        <EntityTypeShape EntityType="ComerciantesModel.PlantillasCC" Width="1.5" PointX="5.5" PointY="3.625" />
+        <AssociationConnector Association="ComerciantesModel.FK_PlantillasCC_Id" />
+        <AssociationConnector Association="ComerciantesModel.FK_PlantillasRect_Id" />
+        <EntityTypeShape EntityType="ComerciantesModel.ComerciantesRectificacionesView" Width="1.875" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ComerciantesModel.Log_Registros" Width="1.5" PointX="0.625" PointY="5.25" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

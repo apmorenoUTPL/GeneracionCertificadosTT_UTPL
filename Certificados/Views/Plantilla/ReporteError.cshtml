@@ -1,0 +1,26 @@
+﻿@model Certificados.Models.Plantillas
+
+@{
+    ViewBag.Title = "DOCUMENTOS: Reporte de error";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <h4>
+            Mensaje:
+        </h4>
+        <p>
+            @ViewBag.Mensaje
+        </p>
+        <p>
+            @ViewBag.MensajeError
+        </p>
+        <p>
+            <a href="~/Plantilla/AdministrarPlantillas" class="btn btn-danger">Regresar</a>
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

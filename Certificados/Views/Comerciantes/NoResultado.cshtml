@@ -1,0 +1,32 @@
+﻿@model Certificados.Models.Comerciantes
+
+@{
+    ViewBag.Title = "CERTIFICADOS: Sin Resultados";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div>
+            <p>
+                No se ha encontrado algún registro que coincida con la cédula de ciudadanía No. <strong>"@ViewBag.DataCedula"</strong>
+                y los apellidos <strong>"@ViewBag.DataApellidos"</strong>.
+            </p>
+            <p>
+                Revise que los datos ingresados estén correctos y vuelva a intentarlo presionando <strong>"Nueva Búsqueda"</strong>.
+            </p>
+        </div>
+        <hr />
+
+        <div>
+            <p>
+                @Html.ActionLink("Regresar al inicio", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink("Nueva Búsqueda", "NuevaBusqueda", "Comerciantes", null, htmlAttributes: new { @class = "btn btn-success" })
+            </p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

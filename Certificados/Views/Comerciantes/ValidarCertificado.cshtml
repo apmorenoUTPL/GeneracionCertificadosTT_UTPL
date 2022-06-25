@@ -1,0 +1,84 @@
+﻿@model Certificados.Models.Certificados
+
+@{
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+    ViewBag.Title = "Validación de Certificado de Capacitación de Comerciante Autónomo".ToUpper();
+    var numeroDoc = ViewBag.CertNumber + Model.fecha_emision.Year.ToString() + "-" + Model.num_certificado.ToString();
+}
+
+<style>
+    texto-validacion {
+        font: 14px arial, verdana;
+        text-align: justify;
+        line-height: 1.5em;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div class="texto-validacion">
+            <p>
+                En este página puede verificar si un Certificado de Capacitación de Comerciante Autónomo fue generado desde el aplicativo de
+                la Agencia de Coordinación Distrital del Comerico - ACDC, si los datos del documento corresponde a los registros institucionales y
+                conocer su validez.
+            </p>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Número de documento
+                    </dt>
+                    <dd>
+                        @numeroDoc
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Comerciantes.Nombres)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comerciantes.Nombres)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Comerciantes.Apellidos)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comerciantes.Apellidos)
+                    </dd>
+                    <dt>
+                        Cédula
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comerciantes.Cedula)
+                    </dd>
+                    <dt>
+                        Institución
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comerciantes.Institucion2.nombre_institucion)
+                    </dd>
+                    <dt>
+                        Fecha de emisión
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.fecha_emision)
+                    </dd>
+                    <dt>
+                        Vigencia:
+                    </dt>
+                    <dd>
+                        31 de diciembre de @Model.fecha_emision.Year
+                    </dd>
+                </dl>
+                <hr />
+            </div>
+
+            <p>
+                Si la información presentada en esta página no corresponde con los datos consignados en el documento, por favor acercarse
+                a las oficinas de la ACDC.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

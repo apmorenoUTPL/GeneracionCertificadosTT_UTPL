@@ -1,0 +1,67 @@
+﻿@model Certificados.Models.PlantillasCC
+
+@{
+    ViewBag.Title = "ESTABLECER PLANTILLA";
+    var tipo = ViewBag.Tipo == "certificado" ? "los certificados de capacitación" : "las solicitudes de rectificación";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            Para establecer la plantilla base que los comerciantes autónomos empleen para generar @tipo, debe completar el siguiente
+            campo y cargar el archivo en formato PDF.
+        </p>
+        <br />
+
+        @using (@Html.BeginForm("CargarPlantilla", "PlantillasCC", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre_plantilla, "Nombre:", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-11">
+                @Html.EditorFor(model => model.nombre_plantilla, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.nombre_plantilla, "*Campo obligatorio", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.HiddenFor(model => model.documento_plantilla)
+        </div>
+
+        <div class="form-group">
+            @Html.Label("file", "Archivo:", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-11">
+                @Html.TextBox("file", "", new { type = "file", accept = ".pdf", required = "required" })
+                @Html.ValidationMessage("file", "*Debe seleccionar un archivo PDF.", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Mensaje de validación*@
+        @if (!String.IsNullOrEmpty(ViewBag.Mensaje))
+        {
+            <p class="text-danger">
+                <strong>NOTA:</strong> @ViewBag.Mensaje
+            </p>
+        }
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-11">
+                @Html.ActionLink("Cancelar", "InicioPlantillas", "PlantillasCC", null, htmlAttributes: new { @class = "btn btn-danger" })
+                <input type="submit" value="Establecer" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+        }
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

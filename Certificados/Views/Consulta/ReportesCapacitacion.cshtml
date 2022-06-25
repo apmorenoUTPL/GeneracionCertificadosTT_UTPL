@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "REPORTES CAPACITACIONES";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            En este módulo puede generar los reportes sobre comerciante capacitdos.
+        </p>
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="anioCapacitacion">Año capacitación:</label>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="anioCapacitacion">
+                    @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 10; i--)
+                    {
+                        if (i != DateTime.Now.Year + 1)
+                        {
+                            <option value="@i.ToString()">@i.ToString()</option>
+                        }
+                        else
+                        {
+                            <option value="@i.ToString()" selected>@i.ToString()</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-2">
+                <label for="institucionId">Institución:</label>
+            </div>
+            <div class="col-md-5">
+                <select class="form-control" id="institucionId">
+                    <option value="0" selected>Todas las instituciones</option>
+                    <option value="1">AGENCIA DE COORDINACION DISTRITAL DEL COMERCIO</option>
+                    <option value="2">ADMINISTRACION ZONAL CALDERON</option>
+                    <option value="3">ADMINISTRACION ZONAL ELOY ALFARO</option>
+                    <option value="4">ADMINISTRACION ZONAL EUGENIO ESPEJO</option>
+                    <option value="5">ADMINISTRACION ZONAL LOS CHILLOS</option>
+                    <option value="6">ADMINISTRACION ZONAL LA DELICIA</option>
+                    <option value="7">ADMINISTRACION ZONAL MANUELA SAENZ</option>
+                    <option value="8">ADMINISTRACION ZONAL QUITUMBE</option>
+                    <option value="9">ADMINISTRACION ZONAL TUMBACO</option>
+                    <option value="10">ADMINISTRACION ZONAL LA MARISCAL</option>
+                </select>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="btnRACapacitados">Capacitador por Año:</label>
+            </div>
+            <div class="col-md-9">
+                <input type="button" id="btnRACapacitados" value="PDF" class="btn btn-danger btn-sm" />
+                <input type="button" id="btnRACapacitadosExcel" value="EXCEL" class="btn btn-success btn-sm" />
+            </div>
+        </div><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="btnRATotalCapacitados">Total Capacitados por Año:</label>
+            </div>
+            <div class="col-md-9">
+                <input type="button" id="btnRATotalCapacitados" value="PDF" class="btn btn-danger btn-sm" />
+                <input type="button" id="btnRATotalCapacitadosExcel" value="EXCEL" class="btn btn-success btn-sm" />
+            </div>
+        </div><br />
+        <hr />
+
+        <div class="row">
+            <iframe id="verReporte" style="width:100%; height:600px;" frameborder="0" scrolling="yes"></iframe>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section scripts{
+    <script>
+
+        var instId = $('#institucionId');
+        var anioCapa = $('#anioCapacitacion');
+        
+        $(document).ready(function () {
+            $("#btnRACapacitados").on("click", function () {
+
+                // CAPACITADOR POR AÑO E INSTITUCIÓN
+                $.fn.enviarCapacitados = function (tipoDescarga) {
+                    // verificación del año ingresado
+                    var currentYear = new Date().getFullYear();
+                    if (anioCapa.val() != "" || anioCapa.val().trim().length != 0) {
+                        if (parseInt(anioCapa.val()) < 2000 || parseInt(anioCapa.val()) > currentYear) {
+                            alert("Debe ingresar un año entre 2000 a " + currentYear.toString());
+                            return;
+                        }
+                    }
+
+                    var data = {
+                        id: instId.val(),
+                        capacitacion: anioCapa.val(),
+                        tipo: tipoDescarga
+                    };
+                    var params = jQuery.param(data);
+                    $("#verReporte").attr("src", "VerReporteAnioCapacitados?" + params).load();
+                }                
+            });
+
+            $("#btnRACapacitados").on("click", function () {
+                $.fn.enviarCapacitados("PDF");
+            });
+
+            $("#btnRACapacitadosExcel").on("click", function () {
+                enviarCapacitados("EXCEL");
+            });
+
+            // TOTAL CAPACITADOS
+            $.fn.enviarCapacitadosTotal = function (tipoDescarga) {
+                // verificación del año ingresado
+                var currentYear = new Date().getFullYear();
+                if (anioCapa.val() != "" || anioCapa.val().trim().length != 0) {
+                    if (parseInt(anioCapa.val()) < 2000 || parseInt(anioCapa.val()) > currentYear) {
+                        alert("Debe ingresar un año entre 2000 a " + currentYear.toString());
+                        return;
+                    }
+                }
+
+                var data = {
+                    capacitacion: anioCapa.val(),
+                    tipo: tipoDescarga
+                };
+                var params = jQuery.param(data);
+                $("#verReporte").attr("src", "VerReporteAnioTotalCapacitados?" + params).load();
+            }
+
+            $(document).ready(function () {
+                $("#btnRATotalCapacitados").on("click", function () {
+                    $.fn.enviarCapacitadosTotal("PDF");
+                });
+            });
+
+            $(document).ready(function () {
+                $("#btnRATotalCapacitadosExcel").on("click", function () {
+                    $.fn.enviarCapacitadosTotal("EXCEL");
+                });
+            });
+        });
+
+    </script>
+}
+

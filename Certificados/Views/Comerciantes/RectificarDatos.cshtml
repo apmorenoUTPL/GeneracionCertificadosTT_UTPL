@@ -1,0 +1,138 @@
+﻿@model Certificados.Models.ComerciantesRectificacionesView
+
+@{
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+    ViewBag.Title = "Rectificación de datos".ToUpper();
+    var dataInstitucionesDMQ = (List<SelectListItem>)ViewData["institucionesDMQ"];
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            Si considera que sus datos están incorrectos, puede solicitar su rectificación mediante oficio dirigido la Agencia de
+            Coordinación Distrital del Comercio - ACDC. En esta página, usted pude generar automáticamente este documento, marcando
+            las casillas que corresponden a los campos a rectificar. Se recomienda revisar sus datos, ya que una vez generada la
+            solicitud, no podrá emitir el certificado de capacitación hasta que su requerimiento sea atendido por la ACDC.
+        </p>
+
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Nombres y Apellidos:
+                </dt>
+                <dd>
+                    @Model.Nombres @Model.Apellidos
+                </dd>
+                <dt>
+                    No. Identidicación:
+                </dt>
+                <dd>
+                    @Model.Cedula
+                </dd>
+                <dt>
+                    Institución Actual:
+                </dt>
+                <dd>
+                    @Model.nombre_institucion
+                </dd>
+            </dl>
+            <hr />
+        </div>
+
+        @if (!String.IsNullOrWhiteSpace(ViewBag.Mensaje))
+        {
+            <p class="text-danger">
+                <strong>NOTA:</strong> @ViewBag.Mensaje
+            </p>
+        }
+
+        <p>
+            Para continuar, marque las casillas a rectificar o el cambio de institución:
+        </p>
+
+        <div class="row">
+            <div class="col-md-12">
+                @using (Html.BeginForm("GenerarRectificacion", "Comerciantes", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal", @role = "form", @onsubmit = "return validateForm();" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11">
+                            @Html.CheckBoxFor(m => m.rectificar_nom_ape)
+                            @Html.LabelFor(m => m.rectificar_nom_ape, "Nombres y/o apellidos")
+                        </div>
+                        <div class="col-md-offset-1 col-md-11">
+                            @Html.CheckBoxFor(m => m.rectificar_cedula)
+                            @Html.LabelFor(m => m.rectificar_cedula, "Cédula")
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <legend>
+                                    Si desea cambiar de institución, seleccione otra opción:
+                                </legend>
+                                @*<div class="col-md-offset-1 col-md-11">
+                                    <input id="labelInput" type="checkbox" value = "@dataInstitucionesDMQ[0].Value" />
+                                    <label for="labelInput">@dataInstitucionesDMQ[0].Text</label>
+                                </div>*@
+
+                                @foreach (var item in dataInstitucionesDMQ)
+                                {
+                                    if (item.Text != @Model.nombre_institucion)
+                                    {
+                                        <div class="col-md-offset-1 col-md-11">
+                                            @Html.RadioButtonFor(m => m.rectificar_inst_destino, item.Value, htmlAttributes: new { @aria_labelledby = item.Value })
+                                            @Html.LabelFor(m => m.rectificar_inst_destino, item.Text)
+                                        </div>
+                                    }
+                                }
+                            </fieldset>
+                            @Html.HiddenFor(m => m.comer_id)
+                            @Html.HiddenFor(m => m.rectificar_inst_origen)
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group">
+                        <p>
+                            Presione <strong>"Generar oficio"</strong> para descargar el documento. Imprimímalo, firmelo y entréguelo en
+                            la dirección calle Jorge Washington E4-54 y Av. Amazonas, Edificio Secretaría de Salud, primer piso.
+                        </p>
+                        <br />
+
+                        <div class="col-md-offset-1 col-md-11">
+                            @Html.ActionLink("Cancelar", "NuevaBusqueda", "Comerciantes", null, htmlAttributes: new { @class = "btn btn-danger" })
+                            <input type="submit" class="btn btn-success" value="Generar oficio" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function validateForm() {
+            var nombresApellidos = document.getElementById('rectificar_nom_ape').checked;
+            var cedula = document.getElementById('rectificar_cedula').checked;
+            var tempDestino = document.getElementById('rectificar_inst_destino');
+            var valueDestino = tempDestino.options[tempDestino.checked].value;
+            if (!nombresApellidos && !cedula && valueDestino == 0) {
+                alert("Para generar su solicitud, debe marcar al menos una casilla o cambiar de institución.");
+                return false;
+            }
+            else {
+                alert(nombresApellidos + " ; " + cedula + " ; " + valueDestino);
+                return false;
+            }
+        }
+    </script>
+}

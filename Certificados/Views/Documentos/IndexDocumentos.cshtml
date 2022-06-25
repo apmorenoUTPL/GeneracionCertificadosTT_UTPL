@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "DOCUMENTOS GENERADOS";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<style type="text/css">
+    h2, th, td {
+        text-align: center !important;
+    }
+</style>
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <br />
+    <p>
+        @Html.ActionLink("Regresar", "AdministrarPlantillas", "Plantilla", null, htmlAttributes: new { @class = "btn btn-primary" })
+    </p>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel panel-heading">COMERCIANTES AUTÓNOMOS CAPACITADOS DEL DMQ</div>
+                <div class="panel panel-body">
+                    <table id="tbComerciantes" class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombres y Apellidos</th>
+                                <th>Curso / Taller</th>
+                                <th>Fecha Curso / Taller</th>
+                                <th>Generado</th>
+                                <th>Archivo</th>
+                                <th>Código de verificación</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        var tabla_comerciantes;
+        $(document).ready(function () {
+            tabla_comerciantes = $('#tbComerciantes').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("ListarDocumentos", "Documentos")",
+                    "type": "GET",
+                    "dataType": "json"
+                },
+                "columns": [
+                    { "data": "Nombres_Apellidos" },
+                    { "data": "Curso_Taller" },
+                    { "data": "Fecha_Curso_Taller" },
+                    { "data": "Fecha" },
+                    { "data": "Archivo", "render": function (data) {
+                        return "<a href='VerDocumento/?rutaArchivo=" + data + "' target='_blank'>Descargar</a>";
+                        }
+                    },
+                    { "data": "Codigo_Verificacion" }
+                ],
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,52 @@
+﻿@model Certificados.Models.Documentos
+
+@{
+    ViewBag.Title = "DOCUMENTO: Detalles";
+}
+
+<style type="text/css">
+    h2 {
+        text-align: center;
+    }
+</style>
+
+<div>
+    <h2>@ViewBag.Title</h2>
+    <br />
+
+    <div>
+        <p>
+            El documento seleccionado contiene los siguientes datos.
+        </p>
+        <ul>
+            <li><b>NOMBRES Y APELLIDOS:</b> @Model.Datos.nombres_apellidos</li>
+            <li><b>CURSO / TALLER:</b> @Model.Datos.curso_taller</li>
+            <li><b>FECHA:</b> @Model.Datos.fecha</li>
+            <li><b>CREACIÓN:</b> @Model.Datos.fecha_registro.ToString("dd/MM/yyyy")</li>
+            <li><b>ARCHIVO:</b> @Html.ActionLink(Model.ruta_archivo, "VerDocumento", "Documentos", new { rutaArchivo = Model.ruta_archivo }, htmlAttributes: new { @target = "_blank" })</li>
+            <li><b>CÓDIGO DE VERIFICACIÓN:</b> @Model.codigo_verificacion</li>
+            @if (Model.Datos.opcional1 != "0")
+            {
+                <li><b>CAMPO OPCIONAL 1:</b> @Model.Datos.opcional1</li>
+            }
+            @if (Model.Datos.opcional2 != "0")
+            {
+                <li><b>CAMPO OPCIONAL 2:</b> @Model.Datos.opcional2</li>
+            }
+            @if (Model.Datos.opcional3 != "0")
+            {
+                <li><b>CAMPO OPCIONAL 3:</b> @Model.Datos.opcional3</li>
+            }
+            @if (Model.Datos.opcional4 != "0")
+            {
+                <li><b>CAMPO OPCIONAL 4:</b> @Model.Datos.opcional4</li>
+            }
+        </ul>
+    </div><br />
+
+    <div class="col-md-12">
+        <p>
+            @Html.ActionLink("Regresar", "ListarDocumentos", "Documentos", Model, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+    </div><br />
+</div>

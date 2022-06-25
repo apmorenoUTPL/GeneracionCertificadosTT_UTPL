@@ -1,0 +1,33 @@
+﻿@model Certificados.Models.Comerciantes
+
+@{
+    ViewBag.Title = "ERROR: Al generar el documento";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-offset-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div>
+            <h4>Lo sentimos...</h4>
+        </div>
+
+        <div>
+            <p>
+                @ViewBag.Mensaje
+            </p>
+        </div>
+        <br />
+
+        <div>
+            <p>
+                @Html.ActionLink("Regresar al inicio", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink("Nueva Búsqueda", "NuevaBusqueda", "Comerciantes", null, htmlAttributes: new { @class = "btn btn-success" })
+            </p>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model Certificados.Models.PlantillasCC
+
+@{
+    ViewBag.Title = "PLANTILLA CC: Reporte de error";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+        <h2>
+            Mensaje:
+        </h2>
+        <p>
+            @ViewBag.Mensaje
+        </p>
+        <p>
+            @ViewBag.MensajeError
+        </p>
+        <p>
+            @Html.ActionLink("Regresar", "InicioPlantillas", "PlantillasCC", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

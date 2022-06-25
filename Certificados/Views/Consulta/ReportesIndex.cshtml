@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "REPORTES GENERALES";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1>@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            En este módulo puede generar los reportes que se indican en los botones.
+        </p>
+
+        @*<div class="row">
+            <div class="col-md-2">
+                <label for="fechaInicio">Fecha inicial:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="date" id="fechaInicial" name="fechaInicial">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="fechaFin">Fecha final:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="date" id="fechaFinal" name="fechaFinal">
+            </div>
+        </div>*@
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="institucionId">*Institución:</label>
+            </div>
+            <div class="col-md-10">
+                <select class="form-control" id="institucionId">
+                    <option value="0" selected>Todas las instituciones</option>
+                    <option value="1">AGENCIA DE COORDINACION DISTRITAL DEL COMERCIO</option>
+                    <option value="2">ADMINISTRACION ZONAL CALDERON</option>
+                    <option value="3">ADMINISTRACION ZONAL ELOY ALFARO</option>
+                    <option value="4">ADMINISTRACION ZONAL EUGENIO ESPEJO</option>
+                    <option value="5">ADMINISTRACION ZONAL LOS CHILLOS</option>
+                    <option value="6">ADMINISTRACION ZONAL LA DELICIA</option>
+                    <option value="7">ADMINISTRACION ZONAL MANUELA SAENZ</option>
+                    <option value="8">ADMINISTRACION ZONAL QUITUMBE</option>
+                    <option value="9">ADMINISTRACION ZONAL TUMBACO</option>
+                    <option value="10">ADMINISTRACION ZONAL LA MARISCAL</option>
+                </select>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <input type="button" id="btnRCapacitados" value="*Comerciantes Capacitados" class="btn btn-primary btn-sm" />
+            <input type="button" id="btnRTotalCapaInst" value="Total Comerciantes Capacitados" class="btn btn-primary btn-sm" />
+            @*<input type="button" id="btnRCertificados" value="*Certificados Generados" class="btn btn-primary btn-sm" />
+            <input type="button" id="btnRRectificaciones" value="Rectificaciones Generados" class="btn btn-primary btn-sm" />
+            <input type="button" id="btnRTotalCertInst" value="Total Certificados Generados" class="btn btn-primary btn-sm" />*@
+        </div>
+        <hr />
+
+        <div class="row">
+            <iframe id="verReporte" style="width:100%; height:600px;" frameborder="0" scrolling="yes"></iframe>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section scripts{
+    <script>
+
+        var instId = $('#institucionId');
+        //var fechaInicio = $('#fechaInicial');
+        //var fechaFin = $('#fechaFinal');
+        
+        $(document).ready(function () {
+            $("#btnRCapacitados").on("click", function () {
+
+                var data = {
+                    id: instId.val(),
+                    //fechaInicial: fechaInicio.val(),
+                    //fechafinal: fechaFin.val()
+                };
+                var params = jQuery.param(data);
+                $("#verReporte").attr("src", "VerReporteCapacitados?" + params).load();
+                /*$("#verReporte").attr("src", "VerReporteCapacitados/" + instId.val()).load();*/
+                /*$("#verReporte").attr("src", "VerReporteCapacitados?id=" + instId.val() + "&fechaInicial=" + fechaInicio.val()).load();*/
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnRCertificados").on("click", function () {
+                $("#verReporte").attr("src", "VerReporteCertGen/" + instId.val()).load();
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnRRectificaciones").on("click", function () {
+                $("#verReporte").attr("src", "VerReporteRectGen").load();
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnRTotalCertInst").on("click", function () {
+                $("#verReporte").attr("src", "VerReporteTotalCertInst").load();
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnRTotalCapaInst").on("click", function () {
+                $("#verReporte").attr("src", "VerReporteTotalCapaInst").load();
+            });
+        });
+
+    </script>
+}
+

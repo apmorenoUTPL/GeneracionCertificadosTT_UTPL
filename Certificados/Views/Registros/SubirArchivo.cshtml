@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "REGISTROS: Cargar datos de comerciantes";
+    var listaObservacionesCSV = (List<string>)ViewData["listaObservaciones"];
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <div>
+            <h1 class="centrado">@ViewBag.Title</h1>
+            <br />
+
+            <p>
+                En esta página, usted puede cargar los registros de los comerciantes que han sido aprobado el curso de capacitación y pueden generar
+                su certificado en este aplicativo. Para hacerlo, deberá utilizar el formato específico en un archivo CSV.
+            </p>
+            <p>
+                Para continuar seleccione el archivo CSV y presione el botón <strong>"Subir archivo"</strong>.
+            </p>
+
+            @if (!String.IsNullOrEmpty(ViewBag.Mensaje))
+            {
+                <div class="text-danger">
+                    <p>
+                        <strong>NOTA:</strong> @ViewBag.Mensaje
+                    </p>
+                </div>
+            }
+
+            @if (ViewBag.Observaciones)
+            {
+                <div>
+                    <hr />
+                    <h5>Observaciones:</h5>
+                    <ul>
+                        @foreach (var item in listaObservacionesCSV)
+                        {
+                            <li>@item</li>
+                        }
+                    </ul>
+                    <hr />
+                </div>
+            }
+            <br />
+
+            @using (@Html.BeginForm("CargarDatosDCA", "Registros", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <div>
+                            @Html.Label("file", "Archivo:", htmlAttributes: new { @class= "col-md-offset-1 col-md-1" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBox("file", "", new { type = "file", accept = ".csv", required = "required" })
+                            @Html.ValidationMessage("file", "*Debe seleccionar un archivo CSV.", new { @class = "text-danger" })
+                        </div>
+                    </div><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11">
+                            @Html.ActionLink("Cancelar", "Index", "Registros", null, htmlAttributes: new { @class = "btn btn-danger" })
+                            <input type="submit" value="Subir archivo" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>    
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

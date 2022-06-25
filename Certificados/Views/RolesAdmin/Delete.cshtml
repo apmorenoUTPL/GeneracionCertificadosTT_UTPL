@@ -1,0 +1,48 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "ROLES: Eliminar";
+}
+
+<style type="text/css">
+    h2 {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>¿Está seguro de que desea eliminar el rol <strong>"@Model.Name"</strong>?</p>
+        <p>Eliminar el rol quitará a todos los usuarios de este rol pero el usuario permanecerá activo.</p>
+        <br />
+
+        <div>
+
+            <!--<hr />
+            <dl class="dl-horizontal">
+                <dt>-->
+                    @*@Html.DisplayNameFor(model => model.Name)*@
+                    <!--Rol:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+            </dl>-->
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Regresar", "Index", "RolesAdmin", null, htmlAttributes: new { @class = "btn btn-primary" })
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </div>
+            }
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

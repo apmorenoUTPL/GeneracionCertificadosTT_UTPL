@@ -1,0 +1,48 @@
+﻿@model Certificados.Models.PlantillasCC
+
+@{
+    ViewBag.Title = "ADMINISTRACIÓN DE PLANTILLAS";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <h1>@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            En este módulo podrá definir el formato de las plantillas base, que serán utilizadas para generar los certificados de
+            capacitación y las solicitudes de rectificación. Para ello, debe elaborar la plantilla en el formato PDF en cualquier programa
+            de edición de este tipo de documentos y cargardo en el sistema.
+        </p>
+
+        <div class="row">
+            <hr />
+            <div class="col-md-6">
+                <h2>Certificados de Capacitación:</h2>
+                <p>
+                    Documento válido como requisito para obtener el permiso PUCA.
+                </p>
+                <p>
+                    @Html.ActionLink("Ver Plantilla", "VerPlantillaActiva", "PlantillasCC", new { documento = "certificado" }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h2>Solicitudes de Rectificación:</h2>
+                <p>
+                    Documento para revisión y rectificación de los registros.
+                </p>
+                <p>
+                    @Html.ActionLink("Ver Plantilla", "VerPlantillaActiva", "PlantillasCC", new { documento = "rectificacion" }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                </p>
+            </div>
+        </div>
+        <br />
+        <hr />
+
+        <p>
+            @Html.ActionLink("Regresar", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+        
+    </div>
+    <div class="col-md-1"></div>
+</div>

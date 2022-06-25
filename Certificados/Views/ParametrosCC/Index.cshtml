@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Certificados.Models.ParametrosCC>
+
+@{
+    ViewBag.Title = "PARÁMETROS DE CERTIFICADOS DE CAPACITACIÓN";
+}
+
+<style type="text/css">
+    th, td {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <div>
+            <h1 class="centrado">@ViewBag.Title</h1>
+            <br />
+
+            <p>
+                @Html.ActionLink("Regresar", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+            </p>
+
+            <table class="table">
+                <caption hidden>Administración de parámetros</caption>
+                <tr>
+                    <th>
+                        Parámetro
+                    </th>
+                    <th>
+                        Valor
+                    </th>
+                    <th>Opciones</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre_parametro)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.valor_parametro)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditarParametrosCC", new { parametroId = item.Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

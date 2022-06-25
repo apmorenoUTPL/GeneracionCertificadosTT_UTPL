@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "REPORTES DE CERTIFICADOS GENERADOS";
+    Layout = "~/Views/Shared/_Layout TB.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            En este módulo puede generar los reportes de los certificados de capacitación generadas
+            en este sistema.
+        </p>
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="anioBusqueda">Año emisión:</label>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="anioBusqueda">
+                    @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 10; i--)
+                    {
+                        if (i != DateTime.Now.Year + 1)
+                        {
+                            <option value="@i.ToString()">@i.ToString()</option>
+                        }
+                        else
+                        {
+                            <option value="@i.ToString()" selected>@i.ToString()</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-2">
+                <label for="institucionId">Institución:</label>
+            </div>
+            <div class="col-md-5">
+                <select class="form-control" id="institucionId">
+                    <option value="0" selected>Todas las instituciones</option>
+                    <option value="1">AGENCIA DE COORDINACION DISTRITAL DEL COMERCIO</option>
+                    <option value="2">ADMINISTRACION ZONAL CALDERON</option>
+                    <option value="3">ADMINISTRACION ZONAL ELOY ALFARO</option>
+                    <option value="4">ADMINISTRACION ZONAL EUGENIO ESPEJO</option>
+                    <option value="5">ADMINISTRACION ZONAL LOS CHILLOS</option>
+                    <option value="6">ADMINISTRACION ZONAL LA DELICIA</option>
+                    <option value="7">ADMINISTRACION ZONAL MANUELA SAENZ</option>
+                    <option value="8">ADMINISTRACION ZONAL QUITUMBE</option>
+                    <option value="9">ADMINISTRACION ZONAL TUMBACO</option>
+                    <option value="10">ADMINISTRACION ZONAL LA MARISCAL</option>
+                </select>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="btnRCertificados">Certificados Generados:</label>
+            </div>
+            <div class="col-md-9">
+                <input type="button" id="btnRCertificados" value="PDF" class="btn btn-danger btn-sm" />
+                <input type="button" id="btnRCertificadosExcel" value="EXCEL" class="btn btn-success btn-sm" />
+            </div>
+        </div><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="btnRTotalCertInst">Total Certificados por Año:</label>
+            </div>
+            <div class="col-md-9">
+                <input type="button" id="btnRTotalCertInst" value="PDF" class="btn btn-danger btn-sm" />
+                <input type="button" id="btnRTotalCertInstExcel" value="EXCEL" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <iframe id="verReporte" style="width:100%; height:600px;" frameborder="0" scrolling="yes"></iframe>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section scripts{
+    <script>
+
+        var instId = $('#institucionId');
+        var anioBus = $('#anioBusqueda');
+
+        $(document).ready(function () {
+
+            // certificados por institución y por año
+            $.fn.enviarCertificados = function (tipoDescarga) {
+                // verificación del año ingresado
+                var currentYear = new Date().getFullYear();
+                if (anioBus.val() != "" || anioBus.val().trim().length != 0) {
+                    if (parseInt(anioBus.val()) < 2000 || parseInt(anioBus.val()) > currentYear) {
+                        alert("Debe ingresar un año entre 2000 a " + currentYear.toString());
+                        return;
+                    }
+                }
+
+                // parámetros
+                var data = {
+                    id: instId.val(),
+                    anioBusqueda: anioBus.val(),
+                    tipo: tipoDescarga
+                };
+                var params = jQuery.param(data);
+                $("#verReporte").attr("src", "VerReporteCertGen?" + params).load();
+            };
+
+            $("#btnRCertificados").on("click", function () {
+                $.fn.enviarCertificados("PDF");
+            });
+
+            $("#btnRCertificadosExcel").on("click", function () {
+
+                $.fn.enviarCertificados("EXCEL");
+            });
+
+            //certificados totales
+            $.fn.enviarCertificadosTotal = function (tipoDescarga) {
+                // verificación del año ingresado
+                var currentYear = new Date().getFullYear();
+                if (anioBus.val() != "" || anioBus.val().trim().length != 0) {
+                    if (parseInt(anioBus.val()) < 2000 || parseInt(anioBus.val()) > currentYear) {
+                        alert("Debe ingresar un año entre 2000 a " + currentYear.toString());
+                        return;
+                    }
+                }
+
+                // parámetros
+                var data = {
+                    anioBusqueda: anioBus.val(),
+                    tipo: tipoDescarga
+                };
+                var params = jQuery.param(data);
+                $("#verReporte").attr("src", "VerReporteTotalCertInst?" + params).load();
+            };
+
+            $("#btnRTotalCertInst").on("click", function () {
+                $.fn.enviarCertificadosTotal("PDF");
+            });
+
+            $("#btnRTotalCertInstExcel").on("click", function () {
+                $.fn.enviarCertificadosTotal("EXCEL");
+            });
+        });
+
+    </script>
+}

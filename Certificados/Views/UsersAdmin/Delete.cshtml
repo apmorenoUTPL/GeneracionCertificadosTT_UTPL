@@ -1,0 +1,41 @@
+﻿@model IdentitySample.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "USUARIO: Eliminar";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <p>
+            ¿Está seguro que quiere eliminar el usuario <strong>"@Model.UserName"</strong>?
+        </p>
+        <br />
+        <div>
+            <!--<hr />
+            <dl class="dl-horizontal">
+                <dt>-->
+                    @*@Html.DisplayNameFor(model => model.UserName)*@
+                    <!--Usuario:
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+            </dl>-->
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Regresar", "Index", "UsersAdmin", null, htmlAttributes: new { @class = "btn btn-primary" })
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

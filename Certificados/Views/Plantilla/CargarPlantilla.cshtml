@@ -1,0 +1,21 @@
+﻿@model Certificados.Models.Plantillas
+
+@{
+    ViewBag.Title = "PLANTILLA: Guardada";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+        <h2>Registro Exitoso.</h2>
+        <br />
+        <p>@ViewBag.Mensaje</p>
+        <hr />
+
+        <p>
+            @Html.ActionLink("Regresar", "AdministrarPlantillas", "Plantilla", null, htmlAttributes: new { @class = "btn btn-primary" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>

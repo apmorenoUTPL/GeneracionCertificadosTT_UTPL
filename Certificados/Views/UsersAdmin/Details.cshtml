@@ -1,0 +1,47 @@
+﻿@model IdentitySample.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "USUARIO: Detalles";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @*@Html.DisplayNameFor(model => model.UserName)*@
+                    Usuario:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    Roles asignados:
+                </dt>
+                @if (ViewBag.RoleNames.Count == 0)
+                {
+                    <dd>Este usuario aún no tiene un rol asignado.</dd>
+                } else { 
+                    <dd>
+                        @foreach (var item in ViewBag.RoleNames)
+                        {
+                            @item
+                        }
+                    </dd>
+                }
+
+            </dl>
+        </div><br />
+
+        <p>
+            @Html.ActionLink("Regresar", "Index", "UsersAdmin", null, htmlAttributes: new { @class = "btn btn-primary" })
+            @Html.ActionLink("Editar", "Edit", "UsersAdmin", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+

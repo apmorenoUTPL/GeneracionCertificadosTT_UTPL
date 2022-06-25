@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Tesis UTPL 2022</title>
+    <style type="text/css">
+        h1 {
+            font-size: 2.5em !important;
+        }
+        h1.centrado {
+            text-align: center;
+        }
+        .btn-success {
+            background-color: #177530 !important;
+            border-color: #177530 !important;
+        }
+        .btn-danger,
+        .btn-danger:hover,
+        .btn-danger:active,
+        .btn-danger:visited {
+            background-color: #ad180e !important;
+            border-color: #ad180e !important;
+        }
+        .touppper {
+            text-transform: uppercase;
+        }
+    </style>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <p hidden>Menú</p>
+                </button>
+                @Html.ActionLink("Emisión de Certificados", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Usuarios", "Index", "UsersAdmin")</li>
+                        <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
+                        <li>@Html.ActionLink("Plantillas", "InicioPlantillas", "PlantillasCC")</li>
+                        <li>@Html.ActionLink("Parámetros", "Index", "ParametrosCC")</li>
+                        <li>@Html.ActionLink("Comerciantes", "Index", "Registros")</li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Reportes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Reportes Capacitaciones", "ReportesCapacitacion", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Certificados", "ReportesCertificados", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Rectificaciones", "ReportesRectificaciones", "Consulta")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("Técnico"))
+                    {
+                        <li>@Html.ActionLink("Rectificaciones", "SolicitudesRectificacion", "Tecnico")</li>
+                        <li>@Html.ActionLink("Comerciantes", "Index", "Tecnico")</li>
+                        <li>@Html.ActionLink("Otros Documentos", "AdministrarPlantillas", "Plantilla")</li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Reportes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Reportes Capacitaciones", "ReportesCapacitacion", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Certificados", "ReportesCertificados", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Rectificaciones", "ReportesRectificaciones", "Consulta")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("Consulta"))
+                    {
+                        <li>@Html.ActionLink("Comerciantes", "Index", "Tecnico")</li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Reportes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Reportes Capacitaciones", "ReportesCapacitacion", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Certificados", "ReportesCertificados", "Consulta")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Reportes Rectificaciones", "ReportesRectificaciones", "Consulta")</li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Tesis UTPL</p>
+            <p>David Suárez | Andrés Moreno</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,125 @@
+﻿@model Certificados.Models.Plantillas
+
+@{
+    ViewBag.Title = "PLANTILLA: Crear nueva";
+}
+
+<div class="container">
+    <div class="row col-md-offset-1 col-md-10">
+        <h1 class="centrado">@ViewBag.Title</h1>
+        <br />
+
+        <div>
+            <h2>Campos obligatorios:</h2>
+            <p>
+                Los siguientes campos necesariamente estarán en la plantilla y deberán constar en el archivo con los datos.
+            </p>
+            <ul>
+                <li><b>NOMBRES Y APELLIDOS:</b> nombres y apellidos de cada persona (nombres_apellidos).</li>
+                <li><b>CURSO / TALLER:</b> nombre del curso o taller al que hace referencia (curso_taller).</li>
+                <li><b>FECHA:</b> en la cual se realizo el curso o taller al que hace referencia (fecha).</li>
+            </ul>
+            <p><strong>NOTA:</strong> Para continuar deberá desingar un nombre a su plantilla y cargar el archivo para guardar el registro. </p>
+        </div>
+
+        @using (@Html.BeginForm("CargarPlantilla", "Plantilla", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-1">
+                        @Html.LabelFor(model => model.name, "*Nombre:")
+                    </div>
+                    <div class="col-md-10">
+                        <div>
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @minlength = "1", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.name, "*Este campo es obligatorio.", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-1">
+                        @Html.Label("file", "*Archivo:")
+                    </div>
+                    <div class="col-md-10">
+                        <div>
+                            @Html.TextBox("file", "", new { type = "file", accept = "application/pdf", required = "required" })
+                            @Html.ValidationMessage("file", "*Debe seleccionar un archivo en formato PDF", new { @class = "text-danger" })
+                            @if (ViewBag.MesajeArchivo != null && ViewBag.MesajeArchivo == true)
+                            {
+                                @Html.ValidationMessage("file", "*Debe seleccionar un archivo en formato PDF", new { @class = "text-danger" })
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewBag.Mensaje != null)
+                {
+                    <div class="col-md-offset-1 col-md-11">
+                        <p class="text-danger"><b>*NOTA: </b>@ViewBag.Mensaje<span>.</span></p>
+                    </div>
+                }
+
+                <hr />
+                <h2>Campos opcionales:</h2>
+                <p>Para configurar su plantilla de mejor manera, puede agregar campos adicionales. Marque en la casilla hasta cuatro campos adicionales.</p>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.opcional1_plantilla, "Opcional 1:", htmlAttributes: new { @class = "control-label col-md-offset-1 col-md-2" })
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.opcional1_plantilla)
+                            @*@Html.ValidationMessageFor(model => model.opcional1_plantilla, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.opcional2_plantilla, "Opcional 2:", htmlAttributes: new { @class = "control-label col-md-offset-1 col-md-2" })
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.opcional2_plantilla)
+                            @*@Html.ValidationMessageFor(model => model.opcional2_plantilla, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.opcional3_plantilla, "Opcional 3:", htmlAttributes: new { @class = "control-label col-md-offset-1 col-md-2" })
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.opcional3_plantilla)
+                            @*@Html.ValidationMessageFor(model => model.opcional3_plantilla, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.opcional4_plantilla, "Opcional 4:", htmlAttributes: new { @class = "control-label col-md-offset-1 col-md-2" })
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.opcional4_plantilla)
+                            @*@Html.ValidationMessageFor(model => model.opcional4_plantilla, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-11">
+                        <a href="~/Plantilla/AdministrarPlantillas" class="btn btn-danger">Cancelar</a>
+                        <input type="submit" value="Crear plantilla" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
